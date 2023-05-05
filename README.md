@@ -4,5 +4,4 @@
 - Displaying data,
 - Saving data to Database
 
-- Strava API
-- Weather Scrape it
+(Strava API and Weather Scrape)
