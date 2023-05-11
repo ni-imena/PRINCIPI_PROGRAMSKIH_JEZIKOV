@@ -1,0 +1,14 @@
+{
+  "user": {
+    "username": "String",
+    "password": "Hash(String)",
+    "email": "String",
+    "stravaId": "String"
+  },
+  "run": {
+    "userId": "objectId",
+    "runId": "String",
+    "activity": "activity.json",
+    "stream" : "stream.json"
+  }
+}

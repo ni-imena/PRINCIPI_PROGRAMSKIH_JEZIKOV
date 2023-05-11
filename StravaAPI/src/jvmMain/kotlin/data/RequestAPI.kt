@@ -2,6 +2,7 @@ package data
 
 import data.data.AuthenticationManager
 import data.data.model.Activity
+import data.data.sendData
 import org.json.JSONArray
 import java.net.HttpURLConnection
 import java.net.URL
@@ -9,11 +10,8 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import org.json.JSONObject
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneOffset
-import java.time.format.DateTimeFormatter
-import java.util.*
 
 //2 Acts
 const val client_id = "105822"
@@ -120,6 +118,28 @@ fun GetActivityIds(): List<String> {
     }
 }
 
+fun GetActivityStream(id: String): StringBuffer? {
+    val url = "https://www.strava.com/api/v3/activities/$id/streams?keys=time,distance,latlng,altitude,velocity_smooth,heartrate,cadence,watts,temp,moving,grade_smooth&key_by_type=true"
+    val urlObj = URL(url)
+    val conn = urlObj.openConnection() as HttpURLConnection
+    conn.requestMethod = "GET"
+    conn.setRequestProperty("Authorization", "Bearer $accessToken")
+
+    val responseCode = conn.responseCode
+    if (responseCode == HttpURLConnection.HTTP_OK) {
+        val inputStream = BufferedReader(InputStreamReader(conn.inputStream))
+        val response = StringBuffer()
+        var inputLine: String?
+        while (inputStream.readLine().also { inputLine = it } != null) {
+            response.append(inputLine)
+        }
+        inputStream.close()
+        return response
+    } else {
+        return null
+    }
+}
+
 fun GetActivityList(id: String) {
     val url = "https://www.strava.com/api/v3/activities/$id"
     val urlObj = URL(url)
@@ -135,23 +155,22 @@ fun GetActivityList(id: String) {
         while (inputStream.readLine().also { inputLine = it } != null) {
             response.append(inputLine)
         }
-
         inputStream.close()
-        val formatter = DateTimeFormatter.ISO_DATE_TIME
         val jsonArray = JSONArray("[$response]")
+
         for (i in 0 until jsonArray.length()) {
             val jsonObject = jsonArray.getJSONObject(i)
+
+            val athleteObject = jsonObject.getJSONObject("athlete")
+            val athleteId = athleteObject.getLong("id").toString()
+
             if (jsonObject.getLong("id").toString() == id) {
-                ActivityList.add(
-                    Activity(
-                        id = id,
-                        name = jsonObject.getString("name"),
-                        distance = jsonObject.getDouble("distance"),
-                        type = jsonObject.getString("type"),
-                        date = LocalDateTime.parse(jsonObject.getString("start_date_local"), formatter)
-                    )
-                )
+                //TODO send the activity into some kind of list of StringBuffers
+                //TODO where they will be displayed in the UI, and edited if wanted
+                //TODO and after confirming sent to the API with:
+                //TODO sendData(athleteId, response, GetActivityStream(id))
             }
         }
+
     }
 }

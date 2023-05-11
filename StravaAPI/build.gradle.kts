@@ -32,6 +32,7 @@ kotlin {
                 implementation("io.ktor:ktor-server-netty-jvm:2.3.0")
                 implementation("io.ktor:ktor-server-status-pages-jvm:2.3.0")
                 implementation("io.ktor:ktor-server-default-headers-jvm:2.3.0")
+                implementation("com.squareup.okhttp3:okhttp:4.10.0")
 
                 implementation("io.netty:netty-all:4.1.70.Final")
                 implementation("org.slf4j:slf4j-api:1.7.32")
