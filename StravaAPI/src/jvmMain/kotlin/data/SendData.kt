@@ -5,8 +5,9 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okio.IOException
+import org.json.JSONObject
 
-fun sendData(userId: String, activity: StringBuffer, stream: StringBuffer?) {
+fun sendData(userId: String, activity: JSONObject, stream: JSONObject?) {
 
     val client = OkHttpClient()
 
@@ -29,12 +30,8 @@ fun sendData(userId: String, activity: StringBuffer, stream: StringBuffer?) {
         .post(body)
         .build()
 
-
-
     client.newCall(request).execute().use { response ->
         if (!response.isSuccessful) throw IOException("Unexpected code $response")
-        val responseData = response.body?.string()
-        println(responseData)
     }
 
 }

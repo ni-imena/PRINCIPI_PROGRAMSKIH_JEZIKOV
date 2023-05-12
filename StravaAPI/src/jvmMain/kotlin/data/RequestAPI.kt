@@ -2,7 +2,6 @@ package data
 
 import data.data.AuthenticationManager
 import data.data.model.Activity
-import data.data.sendData
 import org.json.JSONArray
 import java.net.HttpURLConnection
 import java.net.URL
@@ -83,7 +82,6 @@ fun GetAuthCode(): String {
     )
 }
 
-
 fun GetActivityIds(): List<String> {
     val givenDate = LocalDate.of(2023, 3, 1)
     val url = "https://www.strava.com/api/v3/athlete/activities?after=${GetEpochTime(givenDate)}&per_page=5"
@@ -118,8 +116,9 @@ fun GetActivityIds(): List<String> {
     }
 }
 
-fun GetActivityStream(id: String): StringBuffer? {
-    val url = "https://www.strava.com/api/v3/activities/$id/streams?keys=time,distance,latlng,altitude,velocity_smooth,heartrate,cadence,watts,temp,moving,grade_smooth&key_by_type=true"
+fun GetActivityStream(id: String): JSONObject? {
+    val url =
+        "https://www.strava.com/api/v3/activities/$id/streams?keys=time,distance,latlng,altitude,velocity_smooth,heartrate,cadence,watts,temp,moving,grade_smooth&key_by_type=true"
     val urlObj = URL(url)
     val conn = urlObj.openConnection() as HttpURLConnection
     conn.requestMethod = "GET"
@@ -134,7 +133,7 @@ fun GetActivityStream(id: String): StringBuffer? {
             response.append(inputLine)
         }
         inputStream.close()
-        return response
+        return JSONObject(response.toString())
     } else {
         return null
     }
@@ -165,7 +164,8 @@ fun GetActivityList(id: String) {
             val athleteId = athleteObject.getLong("id").toString()
 
             if (jsonObject.getLong("id").toString() == id) {
-                //TODO send the activity into some kind of list of StringBuffers
+                ActivityList.add(Activity(null, athleteId, false, JSONObject(response.toString())))
+                //TODO send the activity into some kind of list of JSONObjects
                 //TODO where they will be displayed in the UI, and edited if wanted
                 //TODO and after confirming sent to the API with:
                 //TODO sendData(athleteId, response, GetActivityStream(id))
