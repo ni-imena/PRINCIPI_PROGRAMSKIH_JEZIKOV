@@ -83,8 +83,8 @@ fun GetAuthCode(): String {
 }
 
 fun GetActivityIds(): List<String> {
-    val givenDate = LocalDate.of(2023, 3, 1)
-    val url = "https://www.strava.com/api/v3/athlete/activities?after=${GetEpochTime(givenDate)}&per_page=5"
+    val givenDate = LocalDate.of(2022, 3, 1)
+    val url = "https://www.strava.com/api/v3/athlete/activities?after=${GetEpochTime(givenDate)}&per_page=30"
     val urlObj = URL(url)
     val conn = urlObj.openConnection() as HttpURLConnection
     val activityIds = mutableListOf<String>()
@@ -108,7 +108,6 @@ fun GetActivityIds(): List<String> {
             val activityId = jsonObject.getLong("id")
             activityIds.add(activityId.toString())
         }
-
         return activityIds
     } else {
         println("GET request to URL : $url failed with HTTP status code : $responseCode")

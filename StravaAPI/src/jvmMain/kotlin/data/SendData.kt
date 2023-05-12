@@ -10,10 +10,9 @@ import org.json.JSONObject
 fun sendData(userId: String, activity: JSONObject, stream: JSONObject?) {
 
     val client = OkHttpClient()
-
+    activity.put("map", "")
     val activityStr = activity.toString().replace("\"", "\\\"") // Escape double quotes
     val streamStr = stream?.toString()?.replace("\"", "\\\"") // Escape double quotes and handle null
-
 
     val json = """
     {
@@ -22,9 +21,7 @@ fun sendData(userId: String, activity: JSONObject, stream: JSONObject?) {
         "stream": "$streamStr"
     }
     """.trimIndent()
-
     val body = json.toRequestBody("application/json".toMediaType())
-
     val request = Request.Builder()
         .url("http://localhost:3001/runs")
         .post(body)

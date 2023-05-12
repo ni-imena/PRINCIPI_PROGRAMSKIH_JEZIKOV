@@ -180,7 +180,7 @@ fun Body() {
                 val type = jsonObject.getString("type")
                 val date =
                     LocalDateTime.parse(jsonObject.getString("start_date_local"), DateTimeFormatter.ISO_DATE_TIME)
-
+                activity.select = true
                 var isEditing by remember { mutableStateOf(false) }
                 var editedName by remember { mutableStateOf(name) }
                 var editedType by remember { mutableStateOf(type) }
