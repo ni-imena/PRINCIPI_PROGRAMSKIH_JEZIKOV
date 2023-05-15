@@ -1,4 +1,3 @@
-import androidx.compose.ui.text.toUpperCase
 import it.skrape.core.htmlDocument
 import it.skrape.fetcher.HttpFetcher
 import it.skrape.fetcher.extractIt

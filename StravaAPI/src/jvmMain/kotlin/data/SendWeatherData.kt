@@ -1,31 +1,28 @@
 package data.data
 
+import data.data.model.Weather
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okio.IOException
-import org.json.JSONObject
 
-fun sendData(userId: String, activity: JSONObject, stream: JSONObject?) {
+fun sendWeatherData(weather: Weather) {
 
     val client = OkHttpClient()
-    activity.remove("map")
-
-    val activityStr = activity.toString().replace("\"", "\\\"") // Escape double quotes
-    val streamStr = stream?.toString()?.replace("\"", "\\\"") // Escape double quotes and handle null
 
     val json = """
     {
-        "stravaUserId": "$userId",
-        "activity": "$activityStr",
-        "stream": "$streamStr"
+        "location": "${weather.city}",
+        "temperature": "${weather.temperature}",
+        "cloudiness": "${weather.aproxCloud}",
+        "humidity": "${weather.humidity}"
     }
-    
     """.trimIndent()
+
     val body = json.toRequestBody("application/json".toMediaType())
     val request = Request.Builder()
-        .url("http://localhost:3001/runs")
+        .url("http://localhost:3001/weather")
         .post(body)
         .build()
 

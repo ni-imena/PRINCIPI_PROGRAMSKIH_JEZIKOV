@@ -8,17 +8,13 @@
   "run": {
     "userId": "objectId(user)",
     "activity": "Object(activity.json)",
-    "stream" : "Object(stream.json)"
+    "stream": "Object(stream.json)"
   },
   "weather": {
-    "cloudinessId": "objectId(cloudiness)",
+    "cloudinessId": "String",
     "temperature": "Number",
     "humidity": "Number",
     "location": "String",
     "date": "Date"
-  },
-  "cloudiness": {
-    "name": "String",
-    "icon": "Icon.png"
   }
 }

@@ -6,7 +6,6 @@ import java.net.URI
 
 class AuthenticationManager {
 
-
     fun authenticateUser(
         domain: String,
         clientId: String,
