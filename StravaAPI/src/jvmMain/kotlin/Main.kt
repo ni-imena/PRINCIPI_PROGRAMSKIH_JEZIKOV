@@ -57,9 +57,9 @@ fun SaveWeather() {
 fun GenerateWeather() {
     WeatherList.clear()
     getWeather()
-    for (item in WeatherList) {
+    /*for (item in WeatherList) {
         println(String.format("%-40s%-25s%-25s%-25s", item.city, item.temperature, item.aproxCloud, item.humidity))
-    }
+    }*/
     WeatherGenerated = true
 }
 
@@ -96,8 +96,7 @@ fun WeatherTab() {
     val (hasWeather, setHasWeather) = remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+            .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -130,7 +129,7 @@ fun Weather() {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(14.dp),
+                .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
@@ -166,6 +165,7 @@ fun Weather() {
                 }
             }
         }
+        Divider(color = Color.Black, thickness = 1.dp)
         key(key.value) {
             LazyColumn {
                 items(weatherList) { weather ->
@@ -193,26 +193,38 @@ fun Weather() {
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
-                                TextField(
-                                    modifier = Modifier.weight(1f),
+                                OutlinedTextField(
+                                    modifier = Modifier.weight(0.3f)
+                                        .padding(end = 10.dp)
+                                        .padding(bottom = 10.dp)
+                                        .height(56.dp),
                                     value = editedCity,
                                     onValueChange = { editedCity = it },
                                     label = { Text("City") }
                                 )
-                                TextField(
-                                    modifier = Modifier.weight(1f),
+                                OutlinedTextField(
+                                    modifier = Modifier.weight(0.2f)
+                                        .padding(end = 10.dp)
+                                        .padding(bottom = 10.dp)
+                                        .height(56.dp),
                                     value = editedTemperature,
                                     onValueChange = { editedTemperature = it },
                                     label = { Text("Temperature") }
                                 )
-                                TextField(
-                                    modifier = Modifier.weight(1f),
+                                OutlinedTextField(
+                                    modifier = Modifier.weight(0.3f)
+                                        .padding(end = 10.dp)
+                                        .padding(bottom = 10.dp)
+                                        .height(56.dp),
                                     value = editedAproxCloud,
                                     onValueChange = { editedAproxCloud = it },
                                     label = { Text("Approximate Cloud") }
                                 )
-                                TextField(
-                                    modifier = Modifier.weight(1f),
+                                OutlinedTextField(
+                                    modifier = Modifier.weight(0.2f)
+                                        .padding(end = 10.dp)
+                                        .padding(bottom = 10.dp)
+                                        .height(56.dp),
                                     value = editedHumidity,
                                     onValueChange = { editedHumidity = it },
                                     label = { Text("Humidity") }
@@ -225,7 +237,6 @@ fun Weather() {
                                             weather.aproxCloud = editedAproxCloud
                                             weather.humidity = editedHumidity
                                             isEditing = false
-                                            println("After Save: $WeatherList")
                                         }
                                     ) {
                                         Icon(Icons.Filled.Check, contentDescription = "Save")
@@ -233,7 +244,6 @@ fun Weather() {
                                     IconButton(
                                         onClick = {
                                             isEditing = false
-                                            println("After Cancel: $weatherList")
                                         }
                                     ) {
                                         Icon(Icons.Filled.Close, contentDescription = "Cancel")
@@ -249,7 +259,8 @@ fun Weather() {
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(10.dp),
+                                    .padding(4.dp)
+                                    .padding(vertical = 9.dp),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
@@ -280,11 +291,9 @@ fun Weather() {
                                     }
                                     IconButton(
                                         onClick = {
-                                            println("Before Delete: $WeatherList")
                                             WeatherList.remove(weather)
                                             setWeatherList(WeatherList)
                                             key.value += 1
-                                            println("After Delete: $WeatherList")
                                         }
                                     ) {
                                         Icon(Icons.Filled.Delete, contentDescription = "Delete")
@@ -293,6 +302,7 @@ fun Weather() {
                             }
                         }
                     }
+
                 }
             }
         }
@@ -394,6 +404,42 @@ fun Activities() {
             .fillMaxSize(),
         verticalArrangement = Arrangement.Top
     ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = Color.Transparent)
+                .padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Row(modifier = Modifier.width(55.dp)) {}
+            Text(
+                text = "Name",
+                style = MaterialTheme.typography.subtitle1,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.weight(0.4f).padding(5.dp)
+            )
+            Text(
+                text = "Type",
+                style = MaterialTheme.typography.subtitle1,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.weight(0.1f)
+            )
+            Text(
+                text = "Date",
+                style = MaterialTheme.typography.subtitle1,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.weight(0.2f)
+            )
+            Row {
+                IconButton(onClick = {}) {
+                    Icon(Icons.Filled.Edit, contentDescription = "Edit")
+                }
+                IconButton(onClick = {}) {
+                    Icon(Icons.Filled.Delete, contentDescription = "Delete")
+                }
+            }
+        }
+        Divider(color = Color.Black, thickness = 1.dp)
         key(key.value) {
             LazyColumn {
                 items(activities) { activity ->
@@ -416,32 +462,41 @@ fun Activities() {
                         ) {
                             Row(
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(4.dp),
+                                    .fillMaxWidth(),
                                 verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.SpaceBetween
+                                horizontalArrangement = Arrangement.SpaceBetween,
                             ) {
-                                TextField(
-                                    modifier = Modifier.weight(1f)
-                                        .padding(end = 8.dp),
+                                Row(modifier = Modifier.width(55.dp)) {}
+                                OutlinedTextField(
+                                    modifier = Modifier.weight(0.4f)
+                                        .padding(end = 10.dp)
+                                        .padding(bottom = 10.dp)
+                                        .height(56.dp),
                                     value = editedName,
                                     onValueChange = { editedName = it },
                                     label = { Text("Name") }
                                 )
-                                TextField(
-                                    modifier = Modifier.weight(1f),
+                                OutlinedTextField(
+                                    modifier = Modifier.weight(0.1f)
+                                        .padding(bottom = 10.dp)
+                                        .padding(end = 10.dp)
+                                        .height(56.dp),
                                     value = editedType,
                                     onValueChange = { editedType = it },
                                     label = { Text("Type") }
                                 )
-                                Row {
+                                Text(
+                                    text = date.format(DateTimeFormatter.ofPattern("d/M/yyyy H:mm")),
+                                    modifier = Modifier.weight(0.2f).padding(bottom = 7.dp).padding(start = 1.dp),
+                                    style = MaterialTheme.typography.subtitle2
+                                )
+                                Row(modifier = Modifier.padding(end = 4.dp)) {
                                     IconButton(
                                         onClick = {
                                             jsonObject.put("name", editedName)
                                             jsonObject.put("type", editedType)
                                             activity.json = jsonObject
                                             isEditing = false
-                                            println("After Save: $ActivityList")
                                         }
                                     ) {
                                         Icon(Icons.Filled.Check, contentDescription = "Save")
@@ -449,7 +504,6 @@ fun Activities() {
                                     IconButton(
                                         onClick = {
                                             isEditing = false
-                                            println("After Cancel: $ActivityList")
                                         }
                                     ) {
                                         Icon(Icons.Filled.Close, contentDescription = "Cancel")
@@ -465,9 +519,9 @@ fun Activities() {
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(10.dp),
+                                    .padding(4.dp)
+                                    .padding(vertical = 5.dp),
                                 verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.SpaceBetween
                             ) {
                                 Column(
                                     Modifier
@@ -481,22 +535,26 @@ fun Activities() {
                                         },
                                     )
                                 }
-
                                 Column(
                                     Modifier.weight(0.9f)
                                 ) {
-                                    Text(
-                                        text = name,
-                                        style = MaterialTheme.typography.h6
-                                    )
-                                    Text(
-                                        text = type,
-                                        style = MaterialTheme.typography.subtitle2
-                                    )
-                                    Text(
-                                        text = date.toString(),
-                                        style = MaterialTheme.typography.subtitle2
-                                    )
+                                    Row {
+                                        Text(
+                                            text = name,
+                                            style = MaterialTheme.typography.h6,
+                                            modifier = Modifier.weight(0.4f)
+                                        )
+                                        Text(
+                                            text = type,
+                                            style = MaterialTheme.typography.subtitle2,
+                                            modifier = Modifier.weight(0.1f)
+                                        )
+                                        Text(
+                                            text = date.format(DateTimeFormatter.ofPattern("d/M/yyyy H:mm")),
+                                            style = MaterialTheme.typography.subtitle2,
+                                            modifier = Modifier.weight(0.2f)
+                                        )
+                                    }
                                 }
                                 Row {
                                     IconButton(
@@ -506,11 +564,9 @@ fun Activities() {
                                     }
                                     IconButton(
                                         onClick = {
-                                            println("Before Delete: $ActivityList")
                                             ActivityList.remove(activity)
                                             setActivities(ActivityList)
                                             key.value += 1
-                                            println("After Delete: $ActivityList")
                                         }
                                     ) {
                                         Icon(Icons.Filled.Delete, contentDescription = "Delete")
@@ -519,6 +575,7 @@ fun Activities() {
                             }
                         }
                     }
+
                 }
             }
         }
