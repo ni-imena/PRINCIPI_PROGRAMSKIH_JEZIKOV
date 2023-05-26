@@ -350,7 +350,7 @@ fun Intro() {
                             .padding(10.dp)
                             .fillMaxWidth()
                     ) {
-                        Text(text = "Save")
+                        Text(text = "Upload")
                     }
                 } else {
                     Button(
@@ -374,7 +374,7 @@ fun Intro() {
                             .padding(10.dp)
                             .fillMaxWidth()
                     ) {
-                        Text(text = "Save(${WeatherList.size})")
+                        Text(text = "Upload(${WeatherList.size})")
                     }
                 } else {
                     Button(

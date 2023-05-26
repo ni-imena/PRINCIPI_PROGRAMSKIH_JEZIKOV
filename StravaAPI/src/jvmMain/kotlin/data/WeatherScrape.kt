@@ -19,7 +19,6 @@ fun getCloud(src: String?): Cloudiness {
 
 var WeatherList = mutableListOf<Weather>()
 
-
 fun getWeather() {
     val url = URL("https://meteo.arso.gov.si/uploads/probase/www/observ/surface/text/sl/observationAms_si_latest.html")
     val connection = url.openConnection()

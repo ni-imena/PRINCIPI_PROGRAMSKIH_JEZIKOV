@@ -86,7 +86,7 @@ fun GetAuthCode(): String {
 fun GetActivityIds(): List<String> {
     val givenDate = LocalDate.of(2022, 1, 1)
     val currentDate = LocalDate.now()
-    val url = "https://www.strava.com/api/v3/athlete/activities?before=${GetEpochTime(currentDate)}&per_page=2"
+    val url = "https://www.strava.com/api/v3/athlete/activities?before=${GetEpochTime(currentDate)}&per_page=30"
     val urlObj = URL(url)
     val conn = urlObj.openConnection() as HttpURLConnection
     val activityIds = mutableListOf<String>()
